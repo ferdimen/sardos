@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SARDOS - Keşan Saros Doğa ve Spor Derneği</title>
+    
+    <!-- FontAwesome (İkonlar için) -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* GENEL AYARLAR */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            scroll-behavior: smooth;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* RENK VE TEMA DEĞİŞKENLERİ (KIRMIZI TEMA) */
+        :root {
+            --primary-color: #e74c3c;
+            --secondary-color: #c0392b;
+            --dark-color: #2c3e50;
+            --light-color: #f9f9f9;
+        }
+
+        .text-white { color: #fff !important; }
+        .text-center { text-align: center; }
+        .bg-light { background-color: var(--light-color); }
+        .bg-dark { background-color: var(--dark-color); }
+        .bg-primary { background-color: var(--primary-color) !important; }
+        .padding-y { padding: 80px 0; }
+
+        /* BUTONLAR */
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        /* NAVİGASYON BARı */
+        .navbar {
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+        }
+
+        .logo img {
+            height: 45px;
+            display: block;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links li {
+            position: relative;
+        }
+
+        .nav-links li a {
+            padding: 10px 15px;
+            font-weight: 600;
+            color: var(--dark-color);
+            transition: color 0.3s;
+            display: block;
+        }
+
+        .nav-links li a:hover {
+            color: var(--primary-color);
+        }
+
+        /* AÇILIR MENÜ (DROPDOWN) TASARIMI */
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: #fff;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            border-radius: 5px;
+            min-width: 180px;
+            padding: 10px 0;
+            z-index: 1001;
+        }
+
+        .dropdown-menu li a {
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown a i {
+            font-size: 12px;
+            margin-left: 5px;
+        }
+
+        /* HERO (KAHRAMAN) BÖLÜMÜ */
+        .hero-section {
+            position: relative;
+            background: url('img/bg.jpg') no-repeat center center/cover;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            color: #fff;
+            margin-top: 65px;
+        }
+
+        .hero-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 700px;
+        }
+
+        .hero-content h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .hero-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
+
+        /* BAŞLIKLAR */
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--dark-color);
+            margin-bottom: 10px;
+        }
+
+        .underline {
+            width: 70px;
+            height: 4px;
+            background-color: var(--primary-color);
+            margin: 0 auto;
+            border-radius: 2px;
+        }
+
+        /* HAKKIMIZDA */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 15px;
+            color: #555;
+        }
+
+        .about-stats {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .stat-card {
+            background-color: var(--light-color);
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .stat-card i {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .stat-card h4 {
+            font-size: 24px;
+            color: var(--dark-color);
+        }
+
+        /* BANKA BİLGİLERİ KARTI */
+        .bank-card {
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            padding: 30px;
+            max-width: 600px;
+            margin: 40px auto 0;
+            border-top: 5px solid var(--primary-color);
+        }
+
+        .bank-info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fcfcfc;
+            border: 1px solid #eee;
+            padding: 12px 20px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 15px;
+        }
+
+        .bank-label {
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .bank-value {
+            font-family: monospace;
+            font-size: 15px;
+            color: #555;
+            user-select: all;
+        }
+
+        .copy-btn {
+            background: none;
+            border: none;
+            color: var(--primary-color);
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 14px;
+            transition: color 0.2s;
+        }
+
+        .copy-btn:hover {
+            color: var(--secondary-color);
+        }
+
+        /* FAALİYETLERİMİZ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .service-card {
+            background-color: #fff;
+            padding: 30px 20px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .icon-box {
+            width: 60px;
+            height: 60px;
+            background-color: rgba(231, 76, 60, 0.1);
+            color: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin: 0 auto 20px;
+        }
+
+        .service-card h3 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .service-card p {
+            font-size: 14px;
+            color: #666;
+        }
+
+        /* FAALİYET TAKVİMİ KUTUSU */
+        .activities-cta {
+            text-align: center;
+            background-color: #fff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            border: 1px dashed var(--primary-color);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* RESMİN SAYFAYA GÖRE ORANLANMASI */
+        .faaliyet-img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px; /* Alttaki yazı ile arasına boşluk */
+            display: inline-block;
+        }
+
+        .activities-cta p {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--dark-color);
+        }
+
+        .activities-cta a {
+            color: var(--primary-color);
+            text-decoration: underline;
+            transition: color 0.2s;
+            margin-left: 5px;
+        }
+
+        .activities-cta a:hover {
+            color: var(--secondary-color);
+        }
+
+        /* İLKELERİMİZ */
+        .vision-quote {
+            font-size: 24px;
+            font-style: italic;
+            font-weight: 600;
+            color: var(--dark-color);
+            max-width: 800px;
+            margin: 0 auto 40px;
+        }
+
+        .principles-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+            margin-top: 20px;
+        }
+
+        .principle {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+        }
+
+        /* İLETİŞİM GRİDİ */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            margin-top: 30px;
+            align-items: start;
+        }
+
+        .contact-info p {
+            margin-bottom: 25px;
+            color: #ddd;
+        }
+
+        .contact-list li {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 15px;
+        }
+
+        .contact-list li i {
+            margin-top: 5px;
+            color: var(--primary-color);
+        }
+
+        .social-icons {
+            margin-top: 25px;
+            margin-bottom: 30px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .social-icons a {
+            width: 44px;
+            height: 44px;
+            background-color: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-size: 18px;
+            transition: all 0.3s ease;
+        }
+
+        .social-icons a:hover {
+            background-color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .social-icons a.fb:hover { background-color: #3b5998; }
+        .social-icons a.ig:hover { background-color: #e1306c; }
+        .social-icons a.yt:hover { background-color: #ff0000; }
+        .social-icons a.st:hover { background-color: #fc4c02; }
+        .social-icons a.wa:hover { background-color: #25d366; }
+
+        .map-container {
+            width: 100%;
+            height: 280px;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 2px solid rgba(255,255,255,0.1);
+            margin-top: 20px;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        /* FORMSPREE İLETİŞİM FORMU STİLLERİ */
+        .contact-form {
+            background-color: rgba(255, 255, 255, 0.03);
+            padding: 35px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        .contact-form h3 {
+            font-size: 22px;
+            margin-bottom: 25px;
+            color: #fff;
+            border-left: 4px solid var(--primary-color);
+            padding-left: 12px;
+        }
+
+        .contact-form form {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            font-size: 14px;
+            font-weight: 500;
+            color: #ccc;
+        }
+
+        .contact-form input, .contact-form textarea {
+            padding: 14px;
+            border: 1px solid rgba(255,255,255,0.15);
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 15px;
+            transition: border-color 0.3s, background-color 0.3s;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            background-color: rgba(0,0,0,0.3);
+        }
+
+        /* FOOTER */
+        .footer {
+            background-color: #1a252f;
+            color: #aaa;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE (MOBİL UYUMLULUK) */
+        @media (max-width: 768px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .nav-links {
+                font-size: 14px;
+            }
+            .hero-section {
+                margin-top: 110px;
+            }
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            .about-grid, .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .about-stats {
+                flex-direction: row;
+            }
+            .stat-card {
+                flex: 1;
+            }
+            .dropdown-menu {
+                position: static;
+                box-shadow: none;
+                background-color: transparent;
+                text-align: center;
+            }
+            .contact-form {
+                padding: 25px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVİGASYON BARı -->
+    <nav class="navbar">
+        <div class="container navbar-container">
+            <div class="logo">
+                <a href="#"><img src="img/logo.png" alt="SARDOS Logo"></a>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#anasayfa">Anasayfa</a></li>
+                <li class="dropdown">
+                    <a href="#hakkimizda">Hakkımızda <i class="fa-solid fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#hakkimizda">Biz Kimiz?</a></li>
+                        <li><a href="#banka-bilgileri">Banka Bilgileri</a></li>
+                    </ul>
+                </li>
+                <li><a href="#faaliyetler">Faaliyetlerimiz</a></li>
+                <li><a href="#ilkeler">İlkelerimiz</a></li>
+                <li><a href="#iletisim">İletişim</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- KAHRAMAN (HERO) ALANI -->
+    <header id="anasayfa" class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="container hero-content">
+            <h1>Doğa Bizi Çağırıyor!</h1>
+            <p>Kuzey Ege'nin eşsiz değeri Saros Körfezi'ni korumak, tanıtmak ve doğa sporlarını yaşamın bir parçası haline getirmek için pedal çeviriyor, adımlıyoruz.</p>
+            <a href="#hakkimizda" class="btn btn-primary">Bizi Tanıyın</a>
+        </div>
+    </header>
+    <!-- HAKKIMIZDA BÖLÜMÜ -->
+    <section id="hakkimizda" class="section padding-y">
+        <div class="container">
+            <div class="section-title">
+                <h2>Biz Kimiz?</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h3>Keşan Saros Doğa ve Spor Derneği</h3>
+                    <p>SARDOS, 10 Şubat 2014 tarihinde bir topluluk olarak Edirne’nin Keşan ilçesinde kuruldu. Doğa ve spor tutkunu 25 bisikletçinin attığı ilk adımla büyüyen hareketimiz, 11 Mart 2019 tarihinde tüzel kişilik kazanarak dernekleşti.</p>
+                    <p>Temel kuruluş amacımız; kendi kendini temizleme özelliğine sahip dünyadaki ender körfezlerden biri olan <strong>Saros Körfezi</strong>'ni ve bölgemizin ekolojik turizm potansiyelini bisiklet, doğa yürüyüşleri ve diğer doğa sporları aracılığıyla tanıtmaktır.</p>
+                
+				  <p>Edirne'nin Keşan ilçesi ve muhteşem Saros Körfezi başta olmak üzere, <strong>Trakya bölgesinde</strong> doğa sporlarını yaygınlaştırmak, çevre bilincini artırmak ve bölgenin doğal güzelliklerini korumak amacıyla kurulmuş aktif bir sivil toplum kuruluşudur.</p>
+
+  <p>Bölgedeki doğaseverleri, bisikletçileri, dağcıları ve yürüyüşçüleri bir araya getiren dernek, özellikle yerel kültür ile doğayı harmanlayan etkinlikleriyle tanınır.</p>
+				
+				</div>
+                <div class="about-stats">
+                    <div class="stat-card">
+                        <i class="fa-solid fa-bicycle fa-2x"></i>
+                        <h4>2014</h4>
+                        <p>Kuruluş Yılı</p>
+                    </div>
+                    <div class="stat-card">
+                        <i class="fa-solid fa-person-hiking fa-2x"></i>
+                        <h4>100s</h4>
+                        <p>Aktif Faaliyet</p>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+    <!-- FAALİYETLER BÖLÜMÜ -->
+    <section id="faaliyetler" class="section bg-light padding-y">
+        <div class="container">
+            <div class="section-title">
+                <h2>Neler Yapıyoruz?</h2>
+                <div class="underline"></div>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="icon-box"><i class="fa-solid fa-bicycle"></i></div>
+                    <h3>Bisiklet Turları</h3>
+                    <p>Hafta içi alıştırma sürüşleri, şehir içi ve şehir dışı MTB/Yol bisikleti turları düzenliyoruz.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon-box"><i class="fa-solid fa-route"></i></div>
+                    <h3>Doğa Yürüyüşleri (Hiking)</h3>
+                    <p>Bölgemizin tarihi ve doğal güzelliklerini kapsayan yeni rotalar keşfediyor ve doğa yürüyüşleri gerçekleştiriyoruz.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon-box"><i class="fa-solid fa-campground"></i></div>
+                    <h3>Kamplı Festivaller</h3>
+                    <p>Ulusal ve uluslararası doğa sporları festivallerine katılıyor, kamplı organizasyonlar yapıyoruz.</p>
+                </div>
+                <div class="service-card">
+                    <div class="icon-box"><i class="fa-solid fa-ribbon"></i></div>
+                    <h3>Sosyal Sorumluluk</h3>
+                    <p>"27. Alaya Vefa ve Şehitlere Saygı Bisiklet Turu" gibi gelenekselleşen anma turları düzenliyoruz.</p>
+                </div>
+            </div>
+
+            <!-- FAALİYET TAKVİMİ VE SOSYAL MEDYA YÖNLENDİRME BAĞLANTISI -->
+            <div class="activities-cta">
+                <!-- EKLENEN FAALİYET TAKVİMİ GÖRSELİ -->
+                <img src="img/faaliyet-takvimi.jpg" alt="SARDOS Faaliyet Takvimi" class="faaliyet-img">
+                
+                <p>
+                    <i class="fa-solid fa-circle-info" style="color: var(--primary-color);"></i> 
+                    Güncel faaliyetlerimizi sosyal medya hesaplarımızdan takip edebilirsiniz: 
+                    <a href="#iletisim">Sosyal Medya Kanallarımız <i class="fa-solid fa-arrow-right-long"></i></a>
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- İLKELERİMİZ -->
+    <section id="ilkeler" class="section padding-y text-center">
+        <div class="container">
+            <blockquote class="vision-quote">
+                <p>"Hedefimiz; kendi kendini eğlendiren, dibini aydınlatan bir mum değil; çevresini aydınlatan bir ışık olmaktır."</p>
+            </blockquote>
+<div class="about-text">
+			<p>Keşan Saros Doğa ve Spor Derneği (SARDOS), sadece Trakya’da değil, Türkiye genelindeki doğa ve bisiklet toplulukları arasında kendine has duruşu, felsefesi ve taviz vermediği değerleriyle öne çıkan bir oluşumdur. Onları sıradan bir spor kulübü olmaktan çıkarıp köklü bir topluluk haline getiren şey, yıllar içinde inşa ettikleri ve titizlikle korudukları temel ilkeleridir.</p>
+				</div>
+            <div class="principles-container">
+				
+<div class="about-text">
+<p><i class="fa-solid fa-leaf"></i> <strong>1. Ekolojik Sürdürülebilirlik ve "Sıfır İz" Prensibi</strong><br>SARDOS, gerçekleştirdiği tüm açık alan etkinliklerinde (doğa yürüyüşü, kampçılık, bisiklet turları vb.) doğaya minimum etki etmeyi temel bir görev kabul eder. Faaliyet gösterdiğimiz hiçbir coğrafyada arkamızda insan eli değdiğine dair kalıcı bir iz bırakmamak, biyolojik çeşitliliğe ve yaban hayatına saygı göstermek en katı ilkemizdir. Derneğimiz, koruma-kullanma dengesini gözeterek gelecek nesillere bozulmamış bir doğa bırakmayı taahhüt eder.</p>
+</div>
+
+<div class="about-text">
+<p><i class="fa-solid fa-scale-balanced"></i> <strong>2. Çevre Savunuculuğu ve Aktif Çevre Hakları Takibi</strong><br>Sadece spor faaliyetleri yürüten bir kulüp olmanın ötesinde, başta Saros Körfezi ve Trakya bölgesi olmak üzere tüm ülkenin doğal kaynaklarının korunmasında aktif bir taraftır. Doğal ekosisteme, kıyılara, ormanlara ve su kaynaklarına zarar verebilecek her türlü çevre kirliliği, yasa dışı yapılaşma ve ekolojik yıkım girişimine karşı sivil toplumun sesi olmayı, yasal ve toplumsal farkındalık süreçlerine katkı sunmayı kurumsal bir sorumluluk olarak görür.</p>
+</div>
+
+<div class="about-text">
+<p><i class="fa-solid fa-compass"></i> <strong>3. Yarış Değil, Keşif ve Farkındalık Odaklılık</strong><br>SARDOS, doğa sporlarını bir performance yarışı, hız veya tüketim nesnesi olarak değerlendirmez. Faaliyetlerimizin temel felsefesi; doğanın ritmine uyum sağlamak, coğrafyayı anlamak ve bireysel farkındalığı artırmaktır. Amacımız, en kısa sürede en uzun mesafeyi katetmek değil; gidilen rotanın sunduğu doğal, tarihi ve kültürel değerleri özümseyerek "yolda olma" kültürünü yaşatmaktır.</p>
+</div>
+
+<div class="about-text">
+<p><i class="fa-solid fa-people-roof"></i> <strong>4. Toplumsal Hafıza ve Yerel Kültürle Bütünleşme</strong><br>Derneğimiz, rotalarını belirlerken ve uygularken sadece coğrafi sınırları değil, insani sınırları da esas alır. Ulaştığımız her köyde, temas ettiğimiz her yerleşim yerinde yerel halkın kültürüne, emeğine ve yaşam tarzına saygı gösteririz. Bölgesel insan hikayelerini dinlemek, somut olmayan kültürel mirası yerinde gözlemlemek ve toplumsal irfana katkı sunmak kurumsal kimliğimizin ayrılmaz bir parçasıdır.</p>
+</div>				
+<div class="about-text">
+                    <p><i class="fa-solid fa-handshake-angle"></i> <strong>5. Ticari Bağımsızlık ve Samimiyetin Korunması</strong><br>SARDOS, sivil toplum kuruluşu olmanın verdiği sorumlulukla kar amacı gütmeyen, bağımsız yapısını titizlikle korur. Dernek faaliyetlerimizin, tüketim odaklı veya topluluk ruhunu zedeleyebilecek ticari sponsorluk kaygılarına alet edilmesine izin verilmez. Gösterişten uzak, samimi, gönüllülük esaslı ve kurumsal özerkliğe sahip yapımız en büyük güvencemizdir.</p>
+                </div>
+				
+<div class="about-text">
+                    <p><i class="fa-solid fa-users-gear"></i> <strong>6. Kolektif Disiplin, Güvenlik ve Yoldaşlık Hukuku</strong><br>Tüzel kişiliğimiz çatısı altında düzenlenen tüm etkinliklerde "birlikte başlama ve birlikte bitirme" ilkesi geçerlidir. Katılımcıların güvenliği, uluslararası spor ve emniyet standartlarına tam uyum (kask kullanımı, rota disiplini, çevre şartlarına uygun ekipman vb.) tavizsiz bir şekilde uygulanır. SARDOS turlarında her üye birbirinin yoldaşıdır; grup içi dayanışma, hiyerarşiden ve rekabetten her zaman üstün tutulur.</p>
+                </div>
+
+        </div>
+    </section>
+            <!-- BANKA BİLGİLERİ KARTI -->
+            <div id="banka-bilgileri" class="bank-card">
+                <h3 style="margin-bottom: 20px; text-align: center; color: var(--dark-color);">
+                    <i class="fa-solid fa-building-columns" style="color: var(--primary-color);"></i> Hesap & Banka Bilgileri
+                </h3>
+                
+                <div class="bank-info-item">
+                    <div>
+                        <span class="bank-label">BANKA / ŞUBE:</span>
+                        <div class="bank-value" id="banka-sube">FİNANSBANK KEŞAN ŞUBESİ</div>
+                    </div>
+                    <button class="copy-btn" onclick="kopyala('banka-sube')"><i class="fa-regular fa-copy"></i> Kopyala</button>
+                </div>
+
+                <div class="bank-info-item">
+                    <div>
+                        <span class="bank-label">HESAP NO:</span>
+                        <div class="bank-value" id="hesap-no">84630236</div>
+                    </div>
+                    <button class="copy-btn" onclick="kopyala('hesap-no')"><i class="fa-regular fa-copy"></i> Kopyala</button>
+                </div>
+
+                <div class="bank-info-item">
+                    <div>
+                        <span class="bank-label">IBAN:</span>
+                        <div class="bank-value" id="iban">TR570011100000000084630236</div>
+                    </div>
+                    <button class="copy-btn" onclick="kopyala('iban')"><i class="fa-regular fa-copy"></i> Kopyala</button>
+                </div>
+
+                <div class="bank-info-item">
+                    <div>
+                        <span class="bank-label">HESAP SAHİBİ:</span>
+                        <div class="bank-value" id="hesap-sahibi">Keşan Saros Doğa ve Spor Derneği</div>
+                    </div>
+                    <button class="copy-btn" onclick="kopyala('hesap-sahibi')"><i class="fa-regular fa-copy"></i> Kopyala</button>
+                </div>
+            </div>
+    <!-- İLETİŞİM BÖLÜMÜ -->
+    <section id="iletisim" class="section bg-dark text-white padding-y">
+        <div class="container">
+            <div class="section-title">
+                <h2 class="text-white">Bize Ulaşın</h2>
+                <div class="underline bg-primary"></div>
+            </div>
+            <div class="contact-grid">
+                
+                <!-- SOL SÜTUN -->
+                <div class="contact-info">
+                    <p>Etkinliklerimize katılmak ve güncel duyuruları takip etmek için kanallarımız üzerinden bizimle iletişime geçebilir, merkezimizi haritada bulabilirsiniz.</p>
+                    <ul class="contact-list">
+                        <li>
+                            <i class="fa-solid fa-location-dot"></i> 
+                            <span><strong>Adres:</strong><br>Büyük camii mah. Hal geçidi sok. 3/6 Keşan / Edirne</span>
+                        </li>
+                        <li>
+                            <i class="fa-solid fa-phone"></i> 
+                            <span><strong>Telefon Numarası:</strong><br>+90 546 915 86 00</span>
+                        </li>
+                    </ul>
+                    
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/sardos.kesan" target="_blank" class="fb" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/sardoskesan/" target="_blank" class="ig" title="Instagram"><i class="fa-brands fa-instagram"></i></a>
+                        <a href="https://www.youtube.com/channel/UCkPOk1g-i-Nt1G36lez3ujg" target="_blank" class="yt" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+                        <a href="https://www.strava.com/clubs/Sardos" target="_blank" class="st" title="Strava"><i class="fa-brands fa-strava"></i></a>
+                        <a href="https://wa.me/905469158600" target="_blank" class="wa" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+                    </div>
+
+                    <div class="map-container">
+                        <iframe 
+                            src="https://maps.google.com/maps?q=Büyük%20camii%20mah.%20Hal%20geçidi%20sok.%203/6%20Keşan%20Edirne&t=&z=15&ie=UTF8&iwloc=&output=embed" 
+                            allowfullscreen="" 
+                            loading="lazy" 
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                    </div>
+                </div>
+
+                <!-- SAĞ SÜTUN (FORMSPREE FORMU) -->
+                <div class="contact-form">
+                    <h3>Mesaj Gönderin</h3>
+                    <form action="https://formspree.io/f/your-formspree-id" method="POST">
+                        <div class="form-group">
+                            <label for="name">Adınız Soyadınız</label>
+                            <input type="text" id="name" name="name" placeholder="Örn: Mustafa Kemal" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-posta Adresiniz</label>
+                            <input type="email" id="email" name="_replyto" placeholder="Örn: ahmet@mail.com" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mesajınız</label>
+                            <textarea id="message" name="message" placeholder="Bize iletmek istediğiniz mesaj..." rows="5" required></textarea>
+                        </div>
+
+                        <input type="hidden" name="_subject" value="SARDOS Web Sitesi - Yeni Mesaj">
+                        
+                        <button type="submit" class="btn btn-primary">Formu Gönder</button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p>&copy; 2026 SARDOS - Keşan Saros Doğa ve Spor Derneği. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
+
+    <!-- KOPYALAMA JAVASCRIPT KODU -->
+    <script>
+        function kopyala(id) {
+            var metin = document.getElementById(id).innerText;
+            navigator.clipboard.writeText(metin).then(function() {
+                alert("Kopyalandı: " + metin);
+            }, function(err) {
+                console.error('Kopyalanamadı: ', err);
+            });
+        }
+    </script>
+
+</body>
+</html>
